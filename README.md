@@ -24,14 +24,16 @@
 13. delete-docker-image: `npm run docker-image-remove` or `docker rmi -f l3-angular-starter-application`
 
 # Features With Starter Repo
+
 ✔
-- Nestjs with Docker file 
-- Prettier eslint setup 
-- commitlint husky lint-staged support 
-- Tsconfig configured 
+
+- Nestjs with Docker file ✔
+- Prettier eslint setup ✔
+- commitlint husky lint-staged support ✔
+- Tsconfig configured ✔
 - Generic modules and components
-- environment setup 
-- vscode debugger setup
+- environment setup
+- vscode debugger setup ✔
 - testing setup
 - mongo support
 - angular support for mvc

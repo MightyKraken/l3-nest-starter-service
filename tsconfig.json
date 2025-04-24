@@ -1,21 +1,29 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES2021",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+	"compilerOptions": {
+		"removeComments": true,
+		"emitDecoratorMetadata": true,
+		"allowSyntheticDefaultImports": true,
+		"incremental": true,
+		"strictNullChecks": false,
+		"strictBindCallApply": false,
+		"forceConsistentCasingInFileNames": false,
+		"outDir": "./dist",
+		"strict": true,
+		"noImplicitOverride": true,
+		"noPropertyAccessFromIndexSignature": false,
+		"strictPropertyInitialization": false,
+		"noImplicitReturns": true,
+		"noImplicitAny": true,
+		"noFallthroughCasesInSwitch": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"sourceMap": true,
+		"declaration": false,
+		"experimentalDecorators": true,
+		"importHelpers": true,
+		"target": "ES2022",
+		"module": "CommonJS",
+		"lib": ["ES2022", "dom"],
+		"baseUrl": "./"
+	}
 }
