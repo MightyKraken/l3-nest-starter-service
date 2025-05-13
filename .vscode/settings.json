@@ -230,7 +230,7 @@
     "editor.fontWeight": "normal",
     "gitlens.launchpad.indicator.enabled": false,
     "window.title": "${dirty}${rootName}",
-    "workbench.iconTheme": "eq-material-theme-icons-palenight",
+    "workbench.iconTheme": "vscode-icons",
     "git.replaceTagsWhenPull": true,
 
     "github.copilot.advanced": {
@@ -263,9 +263,9 @@
     "actionButtons": {
         "commands": [
             {
-                "name": "$(notebook-execute)",
+                "name": "$(breakpoints-view-icon)",
                 "singleInstance": false,
-                "command": "npm run start",
+                "command": "npm run start:debug",
                 "terminalName": "$(notebook-execute) serve",
                 "ignoreClear": true
             },
@@ -316,7 +316,7 @@
     "editor.mouseWheelZoom": true,
     "terminal.integrated.mouseWheelZoom": true,
     "workbench.editor.editorActionsLocation": "default",
-    "debug.javascript.autoAttachFilter": "always",
+    "debug.javascript.autoAttachFilter": "onlyWithFlag",
     "docker.contexts.showInStatusBar": true,
     "workbench.editor.highlightModifiedTabs": true,
     "workbench.editor.pinnedTabsOnSeparateRow": true,

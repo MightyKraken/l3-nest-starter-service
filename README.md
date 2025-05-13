@@ -41,3 +41,11 @@
 # Important Branches
 
 - nestjs_v11 -> nestjs v11 version compatible
+
+# Quick Notes
+
+- Configure express or fastify
+  NestFactory.create<NestFastifyApplication>(AppModule);
+  NestFactory.create<NestExpressApplication>(AppModule);
+
+-

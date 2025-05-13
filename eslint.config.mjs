@@ -14,16 +14,26 @@ export default [
 			'@typescript-eslint/tslint': tseslint
 		}
 	},
-	{ ignores: ['node_modules/', 'dist/', '.angular/'] },
+	{ ignores: ['eslint.config.mjs', 'node_modules/', 'dist/', '.angular/'] },
 	{ files: ['src/*.{js,mjs,cjs,ts}'] },
 	{
 		languageOptions: {
-			globals: globals.browser,
-			parser: '@typescript-eslint/parser'
+			globals: {
+				...globals.node,
+				...globals.jest
+			},
+			sourceType: 'commonjs',
+			parser: '@typescript-eslint/parser',
+			parserOptions: {
+				projectService: true,
+				tsconfigRootDir: import.meta.dirname
+			}
 		}
 	},
 	pluginJs.configs.recommended,
+	...tseslint.configs.recommendedTypeChecked,
 	...tseslint.configs.recommended,
+	eslintPluginPrettier,
 	{
 		rules: {
 			'simple-import-sort/imports': 'error',
@@ -36,14 +46,18 @@ export default [
 			'@typescript-eslint/adjacent-overload-signatures': 'error',
 			'@typescript-eslint/no-unused-vars': 'off',
 			'@typescript-eslint/no-explicit-any': 'off',
+			'@typescript-eslint/no-floating-promises': 'off',
+			'@typescript-eslint/no-unsafe-argument': 'off',
+			'@typescript-eslint/no-unsafe-return': 'off',
+			'@typescript-eslint/no-unsafe-member-access': 'off',
+			'@typescript-eslint/no-unsafe-call': 'off',
 			'@typescript-eslint/explicit-function-return-type': [
-				'error',
+				'warn',
 				{
 					allowExpressions: true,
 					allowTypedFunctionExpressions: true
 				}
 			]
 		}
-	},
-	eslintPluginPrettier
+	}
 ];
