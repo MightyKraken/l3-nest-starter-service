@@ -32,12 +32,25 @@
 - commitlint husky lint-staged support ✔
 - Tsconfig configured ✔
 - Generic modules and components
-- environment setup
+- environment setup ✔
 - vscode debugger setup ✔
-- testing setup
-- mongo support
+- testing setup ✔
+- mongo support ✔
 - angular support for mvc
 
 # Important Branches
 
 - nestjs_v11 -> nestjs v11 version compatible
+
+# Progress
+
+- Configuration setup done
+- Mongo Connecting locally with docker done
+- Create a user and save to db done
+- Create user dto and added validation done
+-
+
+# Index generation command
+
+- ``// @index(['./**/*.ts', '!./**/*.spec.ts'], f => `export * from '${f.path}'`)``
+-

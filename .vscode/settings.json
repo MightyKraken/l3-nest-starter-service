@@ -1,5 +1,6 @@
 {
     "editor.codeActionsOnSave": {
+        "source.addMissingImports": "always",
         "source.fixAll.eslint": "explicit",
         "source.fixAll.stylelint": "explicit"
     },
@@ -230,7 +231,7 @@
     "editor.fontWeight": "normal",
     "gitlens.launchpad.indicator.enabled": false,
     "window.title": "${dirty}${rootName}",
-    "workbench.iconTheme": "eq-material-theme-icons-palenight",
+    "workbench.iconTheme": "Monokai Pro Light Icons",
     "git.replaceTagsWhenPull": true,
 
     "github.copilot.advanced": {
@@ -265,7 +266,7 @@
             {
                 "name": "$(notebook-execute)",
                 "singleInstance": false,
-                "command": "npm run start",
+                "command": "npm run start:debug",
                 "terminalName": "$(notebook-execute) serve",
                 "ignoreClear": true
             },
@@ -316,7 +317,7 @@
     "editor.mouseWheelZoom": true,
     "terminal.integrated.mouseWheelZoom": true,
     "workbench.editor.editorActionsLocation": "default",
-    "debug.javascript.autoAttachFilter": "always",
+    "debug.javascript.autoAttachFilter": "onlyWithFlag",
     "docker.contexts.showInStatusBar": true,
     "workbench.editor.highlightModifiedTabs": true,
     "workbench.editor.pinnedTabsOnSeparateRow": true,
@@ -348,8 +349,9 @@
         "javascript": "javascript",
         "css": "css"
     },
-    "workbench.productIconTheme": "macos-modern",
+    "workbench.productIconTheme": "icons-carbon",
     "[jsonc]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
+    },
+    "containers.contexts.showInStatusBar": true
 }
