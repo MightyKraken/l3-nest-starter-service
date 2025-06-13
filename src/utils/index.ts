@@ -4,4 +4,4 @@ export * from './decorators/isPasswordStrong.decorator';
 export * from './decorators/isPastDate.decorator';
 export * from './decorators/isPhoneNumberRegex.decorator';
 export * from './enums/gender.enum';
-export * from './filters/try-catch-wrapper';
+export * from './filters/mongo-exception.filter';
