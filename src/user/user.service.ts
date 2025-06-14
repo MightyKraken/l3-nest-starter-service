@@ -45,4 +45,11 @@ export class UserService {
 		const user = await this.userModel.findOne({ email });
 		return user === null;
 	}
+
+	async findByUserName(username: string): Promise<User | null> {
+		const user = await this.userModel
+			.findOne({ username: username })
+			.select('+password');
+		return user;
+	}
 }

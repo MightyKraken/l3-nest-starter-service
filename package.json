@@ -34,6 +34,7 @@
 		"@nestjs/common": "^11.0.10",
 		"@nestjs/config": "^4.0.2",
 		"@nestjs/core": "^11.0.10",
+		"@nestjs/jwt": "^11.0.0",
 		"@nestjs/mapped-types": "*",
 		"@nestjs/mongoose": "^11.0.3",
 		"@nestjs/platform-express": "^11.0.10",
@@ -74,7 +75,8 @@
 		"ts-node": "^10.9.2",
 		"tsconfig-paths": "^4.2.0",
 		"typescript": "^5.7.3",
-		"typescript-eslint": "^8.22.0"
+		"typescript-eslint": "^8.22.0",
+		"vscode-generate-index-standalone": "^1.7.1"
 	},
 	"jest": {
 		"moduleFileExtensions": [

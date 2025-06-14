@@ -157,7 +157,7 @@
     "editor.accessibilitySupport": "off",
     "ShortcutMenuBar.findReplace": true,
     "terminal.integrated.env.osx": {},
-    "terminal.integrated.fontSize": 12,
+    "terminal.integrated.fontSize": 16,
     "autoimport.showNotifications": true,
     "vscode-edge-devtools.webhint": false,
     "ShortcutMenuBar.navigateBack": false,
@@ -353,5 +353,13 @@
     "[jsonc]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "containers.contexts.showInStatusBar": true
+    "containers.contexts.showInStatusBar": true,
+    "emeraldwalk.runonsave": {
+		"commands": [
+			{
+				"match": ".*index\\.ts$",
+				"cmd": "npx vscode-generate-index-standalone src/"
+			}
+		]
+	}
 }

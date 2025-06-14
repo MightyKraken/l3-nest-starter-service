@@ -52,5 +52,10 @@
 
 # Index generation command
 
-- ``// @index(['./**/*.ts', '!./**/*.spec.ts'], f => `export * from '${f.path}'`)``
--
+- ``// @index(['./**/*.ts', '!./**/*.spec.ts'], f => `export * from '${f.path}';`)``
+
+# Useful commands for development
+
+- nest g mo <name> -> Generates a module
+- nest g co <name> -> generates a controller
+- nest g s <name> -> generates a service

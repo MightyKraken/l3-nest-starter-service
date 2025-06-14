@@ -1,4 +1,4 @@
-// @index(['./**/*.ts', '!./**/*.spec.ts'], f => `export * from '${f.path}'`)
+// @index(['./**/*.ts', '!./**/*.spec.ts'], f => `export * from '${f.path}';`)
 export * from './constants/validation';
 export * from './decorators/isPasswordStrong.decorator';
 export * from './decorators/isPastDate.decorator';

@@ -1,4 +1,4 @@
-// @index(['./**/*.ts', '!./**/*.spec.ts'], f => `export * from '${f.path}'`)
+// @index(['./**/*.ts', '!./**/*.spec.ts'], f => `export * from '${f.path}';`)
 export * from './dtos/create-user.dto';
 export * from './dtos/update-user.dto';
 export * from './schemas/user.schema';
