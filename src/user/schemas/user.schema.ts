@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
 
+import { BaseSchema, BaseSchemaOptions } from '../../database';
 import {
 	EmailRegex,
 	Gender,
@@ -15,16 +15,11 @@ import {
 	PhoneNumberRegex
 } from '../../utils';
 
-export type UserDocument = HydratedDocument<User>;
-
 @Schema({
-	timestamps: true,
-	collection: 'Users'
+	collection: 'Users',
+	...BaseSchemaOptions
 })
-export class User {
-	@Prop({ required: true, default: uuidv4 })
-	_id: string;
-
+export class User extends BaseSchema {
 	@Prop({
 		required: true,
 		minlength: MinimumUsernameLength,
@@ -109,3 +104,4 @@ export class User {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+export type UserDocument = HydratedDocument<User>;

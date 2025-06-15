@@ -33,7 +33,7 @@ describe('UserController', () => {
 				username: 'testuser',
 				email: 'test@example.com'
 			} as any;
-			const createdUser: User = { ...createUserDto, id: 'abc123' } as any;
+			const createdUser: User = { ...createUserDto, _id: 'abc123' } as any;
 
 			(service.createUser as jest.Mock).mockResolvedValue(createdUser);
 
@@ -51,7 +51,7 @@ describe('UserController', () => {
 			} as any;
 			const userId = 'abc123';
 			const updatedUser: User = {
-				id: userId,
+				_id: userId,
 				username: 'testuser',
 				email: 'updated@example.com'
 			} as any;

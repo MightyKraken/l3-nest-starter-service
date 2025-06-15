@@ -15,7 +15,7 @@ import {
 	UserNameRegexMessage
 } from '../../utils';
 
-export class CreateUserDto {
+export class SignupDto {
 	@IsNotEmpty()
 	@IsString()
 	@MinLength(MinimumUsernameLength)

@@ -17,3 +17,6 @@ export const MaximumAddressLength = 300;
 
 export const PhoneNumberRegex =
 	/^\s*(?:\+?(\d{1,3}))?([-. (]*(\d{3})[-. )]*)?((\d{3})[-. ]*(\d{2,4})(?:[-.x ]*(\d+))?)\s*$/gm;
+
+export const UserNameRegex = /^[^\s]+$/;
+export const UserNameRegexMessage = 'Username must not contain spaces';

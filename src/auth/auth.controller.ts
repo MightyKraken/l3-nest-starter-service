@@ -1,7 +1,9 @@
 import { Body, Controller, Post } from '@nestjs/common';
 
+import { User } from '../user';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
+import { SignupDto } from './dtos/singup.dto';
 import { TokenResponseDto } from './dtos/token-response.dto';
 
 @Controller('auth')
@@ -13,8 +15,8 @@ export class AuthController {
 	}
 
 	@Post('signUp')
-	signUp(): void {
-		throw new Error('Method not implemented.');
+	async signUp(@Body() signupDto: SignupDto): Promise<User | never> {
+		return this.authService.signUp(signupDto);
 	}
 
 	@Post('logout')

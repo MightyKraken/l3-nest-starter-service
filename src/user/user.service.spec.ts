@@ -74,7 +74,7 @@ describe('UserService', () => {
 		it('should update and return a user', async () => {
 			const updateUserDto = { name: 'new@example.com' };
 			const userId = 'abc123';
-			const updatedUser = { id: userId, ...updateUserDto };
+			const updatedUser = { _id: userId, ...updateUserDto };
 
 			(model.findByIdAndUpdate as jest.Mock).mockResolvedValue(updatedUser);
 

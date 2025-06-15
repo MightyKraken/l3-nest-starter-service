@@ -3,4 +3,5 @@ export * from './auth.controller';
 export * from './auth.module';
 export * from './auth.service';
 export * from './dtos/login.dto';
+export * from './dtos/singup.dto';
 export * from './dtos/token-response.dto';
