@@ -17,7 +17,10 @@ export class UserService {
 		updateUserDto: Partial<UpdateUserDto>,
 		id: string
 	): Promise<User> {
-		return this.userRepository.findOneAndUpdate({ _id: id }, updateUserDto);
+		return await this.userRepository.findOneAndUpdate(
+			{ _id: id },
+			updateUserDto
+		);
 	}
 
 	async findByUserName(username: string): Promise<User | null> {
@@ -26,5 +29,23 @@ export class UserService {
 			{ password: 1 }
 		);
 		return user;
+	}
+
+	async setRefreshToken(refreshToken: string, userId: string): Promise<User> {
+		return await this.userRepository.findOneAndUpdate(
+			{ _id: userId },
+			{ refreshToken }
+		);
+	}
+
+	async removeRefreshToken(userId: string): Promise<User> {
+		return await this.userRepository.findOneAndUpdate(
+			{ _id: userId },
+			{ refreshToken: null }
+		);
+	}
+
+	async findByRefreshToken(refreshToken: string): Promise<User | null> {
+		return this.userRepository.findOne({ refreshToken });
 	}
 }

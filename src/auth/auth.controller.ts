@@ -33,4 +33,11 @@ export class AuthController {
 	forgotPassword(): void {
 		throw new Error('Method not implemented.');
 	}
+
+	@Post('refresh')
+	async refresh(
+		@Body('refresh_token') refreshToken: string
+	): Promise<TokenResponseDto> {
+		return this.authService.refresh(refreshToken);
+	}
 }

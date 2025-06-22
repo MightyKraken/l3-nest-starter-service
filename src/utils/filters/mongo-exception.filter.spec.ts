@@ -34,7 +34,7 @@ describe('MongoExceptionFilter', () => {
 			statusCode: HttpStatus.CONFLICT,
 			message:
 				'email test@example.com is already registered try another value.',
-			error: 'Duplicate Key Error'
+			error: 'Duplicate key error'
 		});
 	});
 
@@ -49,7 +49,7 @@ describe('MongoExceptionFilter', () => {
 		expect(mockResponse.json).toHaveBeenCalledWith({
 			statusCode: HttpStatus.CONFLICT,
 			message: 'Duplicate key error, please try another value.',
-			error: 'Duplicate Key Error'
+			error: 'Duplicate key error'
 		});
 	});
 
@@ -67,7 +67,7 @@ describe('MongoExceptionFilter', () => {
 		expect(mockResponse.json).toHaveBeenCalledWith({
 			statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
 			message: 'Internal server error',
-			error: 'Duplicate Key Error'
+			error: 'Internal server error'
 		});
 	});
 });

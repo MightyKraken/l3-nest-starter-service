@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { User } from './schemas/user.schema';
 import { UserController } from './user.controller';
@@ -25,23 +24,6 @@ describe('UserController', () => {
 
 	it('should be defined', () => {
 		expect(controller).toBeDefined();
-	});
-
-	describe('createUser', () => {
-		it('should create a user', async () => {
-			const createUserDto: CreateUserDto = {
-				username: 'testuser',
-				email: 'test@example.com'
-			} as any;
-			const createdUser: User = { ...createUserDto, _id: 'abc123' } as any;
-
-			(service.createUser as jest.Mock).mockResolvedValue(createdUser);
-
-			const result = await controller.createUser(createUserDto);
-
-			expect(service.createUser).toHaveBeenCalledWith(createUserDto);
-			expect(result).toEqual(createdUser);
-		});
 	});
 
 	describe('updateUser', () => {

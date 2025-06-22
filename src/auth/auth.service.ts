@@ -12,7 +12,7 @@ export class AuthService {
 	constructor(
 		private readonly userService: UserService,
 		private readonly configService: AppConfigService,
-		private jwtService: JwtService
+		private readonly jwtService: JwtService
 	) {}
 
 	async login(loginDto: LoginDto): Promise<TokenResponseDto> {
@@ -23,9 +23,22 @@ export class AuthService {
 			throw new UnauthorizedException('Credentials not valid');
 		}
 		const payload = { username: user.username, sub: user._id };
-		return {
-			access_token: await this.jwtService.signAsync(payload)
-		};
+		const access_token = await this.jwtService.signAsync(payload);
+		const refresh_token = await this.jwtService.signAsync(payload, {
+			expiresIn: '7d'
+		});
+		await this.userService.setRefreshToken(refresh_token, user._id);
+		return { access_token, refresh_token };
+	}
+
+	async refresh(refreshToken: string): Promise<TokenResponseDto> {
+		const user = await this.userService.findByRefreshToken(refreshToken);
+		if (!user) {
+			throw new UnauthorizedException('Invalid refresh token');
+		}
+		const payload = { username: user.username, sub: user._id };
+		const access_token = await this.jwtService.signAsync(payload);
+		return { access_token, refresh_token: refreshToken };
 	}
 
 	async signUp(signUpDto: SignupDto): Promise<User | never> {

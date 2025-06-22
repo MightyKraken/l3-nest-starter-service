@@ -101,6 +101,12 @@ export class User extends BaseSchema {
 		default: null
 	})
 	dateOfBirth: Date | null;
+
+	@Prop({
+		select: false,
+		default: null
+	})
+	refreshToken: string | null;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -7,11 +7,6 @@ import { UserService } from './user.service';
 export class UserController {
 	constructor(private readonly userService: UserService) {}
 
-	// @Post('create')
-	// async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
-	// 	return this.userService.createUser(createUserDto);
-	// }
-
 	@Post('update/:id')
 	async updateUser(
 		@Body() updateUserDto: UpdateUserDto,
