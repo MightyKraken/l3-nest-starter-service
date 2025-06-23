@@ -48,4 +48,8 @@ export class UserService {
 	async findByRefreshToken(refreshToken: string): Promise<User | null> {
 		return this.userRepository.findOne({ refreshToken });
 	}
+
+	async findById(id: string): Promise<User | null> {
+		return this.userRepository.findOne({ _id: id });
+	}
 }

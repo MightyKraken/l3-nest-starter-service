@@ -25,6 +25,16 @@ export class AppConfigService {
 		return this.configService.get<string>('JWT_TOKEN_EXPIRATION');
 	}
 
+	get JWT_REFRESH_SECRET_TOKEN(): string {
+		return this.configService.get<string>('JWT_REFRESH_SECRET_TOKEN');
+	}
+
+	get JWT_REFRESH_SECRET_TOKEN_EXPIRATION(): string {
+		return this.configService.get<string>(
+			'JWT_REFRESH_SECRET_TOKEN_EXPIRATION'
+		);
+	}
+
 	get HASH_SALT_ROUNDS(): number {
 		return this.configService.get<number>('HASH_SALT_ROUNDS');
 	}

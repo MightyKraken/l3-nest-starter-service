@@ -103,7 +103,6 @@ export class User extends BaseSchema {
 	dateOfBirth: Date | null;
 
 	@Prop({
-		select: false,
 		default: null
 	})
 	refreshToken: string | null;

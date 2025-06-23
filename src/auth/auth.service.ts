@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+	ForbiddenException,
+	Injectable,
+	UnauthorizedException
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
@@ -7,6 +11,7 @@ import { User, UserService } from '../user';
 import { LoginDto } from './dtos/login.dto';
 import { SignupDto } from './dtos/singup.dto';
 import { TokenResponseDto } from './dtos/token-response.dto';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
 @Injectable()
 export class AuthService {
 	constructor(
@@ -22,37 +27,72 @@ export class AuthService {
 		if (!user || !this.isPasswordMatch(user.password, password)) {
 			throw new UnauthorizedException('Credentials not valid');
 		}
-		const payload = { username: user.username, sub: user._id };
-		const access_token = await this.jwtService.signAsync(payload);
-		const refresh_token = await this.jwtService.signAsync(payload, {
-			expiresIn: '7d'
-		});
-		await this.userService.setRefreshToken(refresh_token, user._id);
-		return { access_token, refresh_token };
-	}
-
-	async refresh(refreshToken: string): Promise<TokenResponseDto> {
-		const user = await this.userService.findByRefreshToken(refreshToken);
-		if (!user) {
-			throw new UnauthorizedException('Invalid refresh token');
-		}
-		const payload = { username: user.username, sub: user._id };
-		const access_token = await this.jwtService.signAsync(payload);
-		return { access_token, refresh_token: refreshToken };
+		return this.generateAndStoreTokens(user);
 	}
 
 	async signUp(signUpDto: SignupDto): Promise<User | never> {
 		const password = signUpDto.password;
 		const salt = this.configService.HASH_SALT_ROUNDS;
 		const hashedPassword = await bcrypt.hash(password, salt);
-
+		// Create a event to notify other services about the new user creation
 		return this.userService.createUser({
 			...signUpDto,
 			password: hashedPassword
 		});
 	}
 
-	isPasswordMatch(hashedPassword: string, plainPassword: string): boolean {
+	async refreshToken(token: string): Promise<TokenResponseDto> {
+		if (!(await this.isRefreshTokenValid(token))) {
+			throw new ForbiddenException('Invalid refresh token');
+		}
+
+		const user = await this.userService.findByRefreshToken(token);
+		if (!user) {
+			throw new ForbiddenException('User not found');
+		}
+
+		return this.generateAndStoreTokens(user);
+	}
+
+	private isPasswordMatch(
+		hashedPassword: string,
+		plainPassword: string
+	): boolean {
 		return bcrypt.compareSync(plainPassword, hashedPassword);
+	}
+
+	private createJwtPayload(user: User): JwtPayload {
+		return {
+			username: user.username,
+			sub: user._id,
+			id: user._id,
+			email: user.email
+		};
+	}
+
+	private async generateAndStoreTokens(user: User): Promise<TokenResponseDto> {
+		const payload = this.createJwtPayload(user);
+		const access_token = await this.jwtService.signAsync(payload);
+		const refresh_token = await this.jwtService.signAsync(
+			{ sub: payload.sub },
+			{
+				secret: this.configService.JWT_REFRESH_SECRET_TOKEN,
+				expiresIn: this.configService.JWT_REFRESH_SECRET_TOKEN_EXPIRATION
+			}
+		);
+		await this.userService.setRefreshToken(refresh_token, user._id);
+		return { access_token, refresh_token };
+	}
+
+	private async isRefreshTokenValid(token: string): Promise<boolean> {
+		try {
+			const payload = await this.jwtService.verifyAsync(token, {
+				secret: this.configService.JWT_REFRESH_SECRET_TOKEN,
+				ignoreExpiration: false
+			});
+			return !!payload;
+		} catch (err) {
+			return false;
+		}
 	}
 }

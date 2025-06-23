@@ -1,14 +1,19 @@
 import { Body, Controller, Post } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 
 import { User } from '../user';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dtos/login.dto';
+import { RefreshTokenDto } from './dtos/refresh-token.dto';
 import { SignupDto } from './dtos/singup.dto';
 import { TokenResponseDto } from './dtos/token-response.dto';
 
 @Controller('auth')
 export class AuthController {
-	constructor(private authService: AuthService) {}
+	constructor(
+		private authService: AuthService,
+		private jwtService: JwtService
+	) {}
 	@Post('login')
 	async login(@Body() loginDto: LoginDto): Promise<TokenResponseDto> {
 		return this.authService.login(loginDto);
@@ -34,10 +39,10 @@ export class AuthController {
 		throw new Error('Method not implemented.');
 	}
 
-	@Post('refresh')
-	async refresh(
-		@Body('refresh_token') refreshToken: string
+	@Post('refresh-token')
+	async refreshToken(
+		@Body() refreshTokenDto: RefreshTokenDto
 	): Promise<TokenResponseDto> {
-		return this.authService.refresh(refreshToken);
+		return this.authService.refreshToken(refreshTokenDto.refreshToken);
 	}
 }
