@@ -1,5 +1,6 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { Response } from 'express';
 
 import { User } from '../user';
 import { AuthService } from './auth.service';
@@ -7,6 +8,8 @@ import { LoginDto } from './dtos/login.dto';
 import { RefreshTokenDto } from './dtos/refresh-token.dto';
 import { SignupDto } from './dtos/singup.dto';
 import { TokenResponseDto } from './dtos/token-response.dto';
+import { AuthUser } from './guards/authUser.decorator';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -25,8 +28,15 @@ export class AuthController {
 	}
 
 	@Post('logout')
-	logout(): void {
-		throw new Error('Method not implemented.');
+	@UseGuards(JwtAuthGuard)
+	async logout(
+		@AuthUser() user: any,
+		@Res({ passthrough: true }) res: Response
+	): Promise<{ message: string }> {
+		await this.authService.logout(user.sub);
+		res.clearCookie('access_token');
+		res.clearCookie('refresh_token');
+		return { message: 'Logged out successfully' };
 	}
 
 	@Post('reset-password')

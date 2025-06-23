@@ -54,6 +54,10 @@ export class AuthService {
 		return this.generateAndStoreTokens(user);
 	}
 
+	async logout(userId: string): Promise<void> {
+		await this.userService.removeRefreshToken(userId);
+	}
+
 	private isPasswordMatch(
 		hashedPassword: string,
 		plainPassword: string
