@@ -18,8 +18,14 @@ export class AuthController {
 		private jwtService: JwtService
 	) {}
 	@Post('login')
-	async login(@Body() loginDto: LoginDto): Promise<TokenResponseDto> {
-		return this.authService.login(loginDto);
+	async login(
+		@Body() loginDto: LoginDto,
+		@Res({ passthrough: true }) res: Response
+	): Promise<TokenResponseDto> {
+		const tokens = await this.authService.login(loginDto);
+		res.cookie('access_token', tokens.access_token, { httpOnly: true });
+		res.cookie('refresh_token', tokens.refresh_token, { httpOnly: true });
+		return tokens;
 	}
 
 	@Post('signUp')
@@ -51,8 +57,14 @@ export class AuthController {
 
 	@Post('refresh-token')
 	async refreshToken(
-		@Body() refreshTokenDto: RefreshTokenDto
+		@Body() refreshTokenDto: RefreshTokenDto,
+		@Res({ passthrough: true }) res: Response
 	): Promise<TokenResponseDto> {
-		return this.authService.refreshToken(refreshTokenDto.refreshToken);
+		const tokens = await this.authService.refreshToken(
+			refreshTokenDto.refreshToken
+		);
+		res.cookie('access_token', tokens.access_token, { httpOnly: true });
+		res.cookie('refresh_token', tokens.refresh_token, { httpOnly: true });
+		return tokens;
 	}
 }
