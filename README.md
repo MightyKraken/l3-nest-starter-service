@@ -37,6 +37,18 @@
 - testing setup ✔
 - mongo support ✔
 - angular support for mvc
+- passport username password login
+- google login
+- facebook login
+- github login
+- reset password/ forgot password
+- otp sending
+- email sending
+- File Upload
+- Notification Sending
+- PDF generation
+- Graphql
+-
 
 # Important Branches
 
