@@ -6,14 +6,16 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
-import { AppConfigService } from '../app-config';
-import { User, UserService } from '../user';
-import { LoginDto } from './dtos/login.dto';
-import { SignupDto } from './dtos/singup.dto';
-import { TokenResponseDto } from './dtos/token-response.dto';
-import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { AppConfigService } from '../../../app-config';
+import { User, UserService } from '../../../user';
+import { Auth } from '../../abstract/auth';
+import { LoginDto } from '../../dtos/login.dto';
+import { SignupDto } from '../../dtos/singup.dto';
+import { TokenResponseDto } from '../../dtos/token-response.dto';
+import { JwtPayload } from '../../interfaces/jwt-payload.interface';
+
 @Injectable()
-export class AuthService {
+export class AuthJwtService implements Auth {
 	constructor(
 		private readonly userService: UserService,
 		private readonly configService: AppConfigService,

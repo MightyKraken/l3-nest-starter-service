@@ -1,9 +1,8 @@
-import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
+import { Body, Controller, Inject, Post, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 
 import { User } from '../user';
-import { AuthService } from './auth.service';
+import { Auth } from './abstract/auth';
 import { LoginDto } from './dtos/login.dto';
 import { RefreshTokenDto } from './dtos/refresh-token.dto';
 import { SignupDto } from './dtos/singup.dto';
@@ -13,10 +12,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
-	constructor(
-		private authService: AuthService,
-		private jwtService: JwtService
-	) {}
+	constructor(@Inject(Auth) private authService: Auth) {}
 	@Post('login')
 	async login(
 		@Body() loginDto: LoginDto,

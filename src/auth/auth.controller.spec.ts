@@ -1,24 +1,43 @@
+import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { Auth } from './abstract/auth';
 import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
+
+const mockAuthService: Auth = {
+	login: jest.fn(),
+	signUp: jest.fn(),
+	logout: jest.fn(),
+	refreshToken: jest.fn()
+};
+const mockJwtService = {};
+class MockJwtAuthGuard {
+	canActivate(): boolean {
+		return true;
+	}
+}
 
 describe('AuthController', () => {
 	let controller: AuthController;
+	let authService: Auth;
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			controllers: [AuthController],
 			providers: [
 				{
-					provide: AuthService,
-					useValue: {
-						login: jest.fn(),
-						signUp: jest.fn()
-					}
+					provide: Auth,
+					useValue: authService
+				},
+				{
+					provide: JwtService,
+					useValue: mockJwtService
 				}
 			]
-		}).compile();
+		})
+			.overrideGuard(MockJwtAuthGuard)
+			.useClass(MockJwtAuthGuard)
+			.compile();
 
 		controller = module.get<AuthController>(AuthController);
 	});

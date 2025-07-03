@@ -1,17 +1,17 @@
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { AppConfigService } from '../app-config';
-import { UserService } from '../user';
-import { AuthService } from './auth.service';
+import { AppConfigService } from '../../../app-config';
+import { UserService } from '../../../user';
+import { AuthJwtService } from './auth-jwt.service';
 
-describe('AuthService', () => {
-	let service: AuthService;
+describe('AuthJwtService', () => {
+	let service: AuthJwtService;
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
 			providers: [
-				AuthService,
+				AuthJwtService,
 				{
 					provide: UserService,
 					useValue: {
@@ -34,7 +34,7 @@ describe('AuthService', () => {
 			]
 		}).compile();
 
-		service = module.get<AuthService>(AuthService);
+		service = module.get<AuthJwtService>(AuthJwtService);
 	});
 
 	it('should be defined', () => {
