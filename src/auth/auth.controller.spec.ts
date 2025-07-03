@@ -1,7 +1,10 @@
+import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+
+const mockJwtService = {};
 
 describe('AuthController', () => {
 	let controller: AuthController;
@@ -16,6 +19,10 @@ describe('AuthController', () => {
 						login: jest.fn(),
 						signUp: jest.fn()
 					}
+				},
+				{
+					provide: JwtService,
+					useValue: mockJwtService
 				}
 			]
 		}).compile();
