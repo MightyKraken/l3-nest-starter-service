@@ -1,9 +1,35 @@
-name: Test Project
+name: Build Lint Test Project
 on:
   push:
     branches:
       - 'nestjs_v11'
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install NodeJs
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.18.3
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint project
+        run: npm run lint
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install NodeJs
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.18.3
+      - name: Install dependencies
+        run: npm ci
+      - name: Build project
+        run: npm run build
   test:
     runs-on: ubuntu-latest
     env:
