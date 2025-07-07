@@ -1,14 +1,10 @@
-import {
-	ForbiddenException,
-	Injectable,
-	UnauthorizedException
-} from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { Response } from 'express';
 
 import { AppConfigService } from '../app-config';
-import { User, UserService } from '../user';
-import { LoginDto } from './dtos/login.dto';
+import { UserService, UserWithoutPassword } from '../user';
 import { SignupDto } from './dtos/singup.dto';
 import { TokenResponseDto } from './dtos/token-response.dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
@@ -20,25 +16,28 @@ export class AuthService {
 		private readonly jwtService: JwtService
 	) {}
 
-	async login(loginDto: LoginDto): Promise<TokenResponseDto> {
-		const { username, password } = loginDto;
+	async validateUser(
+		username: string,
+		password: string
+	): Promise<UserWithoutPassword | null> {
 		const user = await this.userService.findByUserName(username);
-
-		if (!user || !this.isPasswordMatch(user.password, password)) {
-			throw new UnauthorizedException('Credentials not valid');
+		if (user && this.isPasswordMatch(user.password, password)) {
+			const { password, ...result } = user;
+			return result;
 		}
-		return this.generateAndStoreTokens(user);
+		return null;
 	}
 
-	async signUp(signUpDto: SignupDto): Promise<User | never> {
-		const password = signUpDto.password;
+	async signUp(signUpDto: SignupDto): Promise<UserWithoutPassword | never> {
+		const pass = signUpDto.password;
 		const salt = this.configService.HASH_SALT_ROUNDS;
-		const hashedPassword = await bcrypt.hash(password, salt);
+		const hashedPassword = await bcrypt.hash(pass, salt);
 		// Create a event to notify other services about the new user creation
-		return this.userService.createUser({
+		const { password, ...result } = await this.userService.createUser({
 			...signUpDto,
 			password: hashedPassword
 		});
+		return result;
 	}
 
 	async refreshToken(token: string): Promise<TokenResponseDto> {
@@ -58,23 +57,9 @@ export class AuthService {
 		await this.userService.removeRefreshToken(userId);
 	}
 
-	private isPasswordMatch(
-		hashedPassword: string,
-		plainPassword: string
-	): boolean {
-		return bcrypt.compareSync(plainPassword, hashedPassword);
-	}
-
-	private createJwtPayload(user: User): JwtPayload {
-		return {
-			username: user.username,
-			sub: user._id,
-			id: user._id,
-			email: user.email
-		};
-	}
-
-	private async generateAndStoreTokens(user: User): Promise<TokenResponseDto> {
+	async generateAndStoreTokens(
+		user: UserWithoutPassword
+	): Promise<TokenResponseDto> {
 		const payload = this.createJwtPayload(user);
 		const access_token = await this.jwtService.signAsync(payload);
 		const refresh_token = await this.jwtService.signAsync(
@@ -86,6 +71,32 @@ export class AuthService {
 		);
 		await this.userService.setRefreshToken(refresh_token, user._id);
 		return { access_token, refresh_token };
+	}
+
+	setCookies(res: Response, tokens: TokenResponseDto): void {
+		res.cookie('access_token', tokens.access_token, { httpOnly: true });
+		res.cookie('refresh_token', tokens.refresh_token, { httpOnly: true });
+	}
+
+	clearCookies(res: any): void {
+		res.clearCookie('access_token');
+		res.clearCookie('refresh_token');
+	}
+
+	private isPasswordMatch(
+		hashedPassword: string,
+		plainPassword: string
+	): boolean {
+		return bcrypt.compareSync(plainPassword, hashedPassword);
+	}
+
+	private createJwtPayload(user: UserWithoutPassword): JwtPayload {
+		return {
+			username: user.username,
+			sub: user._id,
+			id: user._id,
+			email: user.email
+		};
 	}
 
 	private async isRefreshTokenValid(token: string): Promise<boolean> {

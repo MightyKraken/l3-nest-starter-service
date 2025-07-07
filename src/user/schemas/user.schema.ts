@@ -39,8 +39,7 @@ export class User extends BaseSchema {
 
 	@Prop({
 		required: true,
-		match: PasswordRegex,
-		select: false
+		match: PasswordRegex
 	})
 	password: string;
 

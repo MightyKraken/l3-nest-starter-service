@@ -24,10 +24,9 @@ export class UserService {
 	}
 
 	async findByUserName(username: string): Promise<User | null> {
-		const user = await this.userRepository.findOne(
-			{ username: username },
-			{ password: 1 }
-		);
+		const user = (
+			await this.userRepository.findOne({ username: username })
+		).toJSON();
 		return user;
 	}
 
