@@ -24,10 +24,8 @@ export class UserService {
 	}
 
 	async findByUserName(username: string): Promise<User | null> {
-		const user = (
-			await this.userRepository.findOne({ username: username })
-		).toJSON();
-		return user;
+		const user = await this.userRepository.findOne({ username: username });
+		return user ? user.toJSON() : null;
 	}
 
 	async setRefreshToken(refreshToken: string, userId: string): Promise<User> {

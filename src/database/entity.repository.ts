@@ -1,3 +1,4 @@
+import { NotFoundException } from '@nestjs/common';
 import { Document, FilterQuery, Model, UpdateQuery } from 'mongoose';
 
 export abstract class EntityRepository<T extends Document> {
@@ -7,12 +8,16 @@ export abstract class EntityRepository<T extends Document> {
 		filter: FilterQuery<T>,
 		projection?: Record<string, unknown>
 	): Promise<T | null> {
-		return this.model
-			.findOne(filter, {
-				...projection
-			})
-			.select('-__v')
-			.exec();
+		try {
+			return this.model
+				.findOne(filter, {
+					...projection
+				})
+				.select('-__v')
+				.exec();
+		} catch (error) {
+			throw new NotFoundException('Data Not Found');
+		}
 	}
 
 	async find(

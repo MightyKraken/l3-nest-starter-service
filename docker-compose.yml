@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    container_name: MongoDB_Compose
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+  nestjs-app:
+    build: .
+    container_name: nestjs-app
+    ports:
+      - '3000:3000'
+    env_file:
+      - .env
+    environment:
+      - DB_CONNECTION_URL=mongodb://mongo:27017
+
+    depends_on:
+      - mongo
+
+volumes:
+  mongo-data:
