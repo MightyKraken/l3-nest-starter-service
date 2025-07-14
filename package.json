@@ -20,7 +20,8 @@
 		"docker-build": "docker build -t l3-nest-starter-service .",
 		"docker-run": "docker run --detach --publish 8080:3000 --name l3-nest-starter-service l3-nest-starter-service",
 		"docker-stop": "docker stop l3-nest-starter-service",
-		"docker-compose": "docker-compose up --build",
+		"docker-compose": "docker-compose down && docker image prune -f && docker-compose up --build -d",
+		"docker-compose-stop": "docker-compose down",
 		"lint:fix": "eslint --fix",
 		"prettier": "npx prettier . --write",
 		"prepare": "husky install"

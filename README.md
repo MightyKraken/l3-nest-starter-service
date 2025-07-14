@@ -22,6 +22,7 @@
 11. stop-docker-container: `npm run docker-stop` or `docker stop l3-angular-starter-application`
 12. delete-docker-container: `npm run docker-container-remove` or `docker rm -f l3-angular-starter-application`
 13. delete-docker-image: `npm run docker-image-remove` or `docker rmi -f l3-angular-starter-application`
+14. run-docker-compose: `npm run docker-compose` or `docker-compose up --build`
 
 # Features With Starter Repo
 
@@ -36,6 +37,7 @@
 - vscode debugger setup ✔
 - testing setup ✔
 - mongo support ✔
+- docker compose setup ✔
 - angular support for mvc
 - passport username password login
 - google login

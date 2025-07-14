@@ -4,8 +4,9 @@ import * as bcrypt from 'bcrypt';
 import { Response } from 'express';
 
 import { AppConfigService } from '../app-config';
-import { UserService, UserWithoutPassword } from '../user';
-import { SignupDto } from './dtos/singup.dto';
+import { User, UserService } from '../user';
+import { UserDto } from '../user/dtos/user.dto';
+import { SignupDto } from './dtos/signup.dto';
 import { TokenResponseDto } from './dtos/token-response.dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 @Injectable()
@@ -16,24 +17,20 @@ export class AuthService {
 		private readonly jwtService: JwtService
 	) {}
 
-	async validateUser(
-		username: string,
-		password: string
-	): Promise<UserWithoutPassword | null> {
+	async validateUser(username: string, password: string): Promise<User | null> {
 		const user = await this.userService.findByUserName(username);
 		if (user && this.isPasswordMatch(user.password, password)) {
-			const { password, ...result } = user;
-			return result;
+			return user;
 		}
 		return null;
 	}
 
-	async signUp(signUpDto: SignupDto): Promise<UserWithoutPassword | never> {
+	async signUp(signUpDto: SignupDto): Promise<UserDto> {
 		const pass = signUpDto.password;
 		const salt = this.configService.HASH_SALT_ROUNDS;
 		const hashedPassword = await bcrypt.hash(pass, salt);
 		// Create a event to notify other services about the new user creation
-		const { password, ...result } = await this.userService.createUser({
+		const result = await this.userService.createUser({
 			...signUpDto,
 			password: hashedPassword
 		});
@@ -57,9 +54,7 @@ export class AuthService {
 		await this.userService.removeRefreshToken(userId);
 	}
 
-	async generateAndStoreTokens(
-		user: UserWithoutPassword
-	): Promise<TokenResponseDto> {
+	async generateAndStoreTokens(user: User): Promise<TokenResponseDto> {
 		const payload = this.createJwtPayload(user);
 		const access_token = await this.jwtService.signAsync(payload);
 		const refresh_token = await this.jwtService.signAsync(
@@ -90,7 +85,7 @@ export class AuthService {
 		return bcrypt.compareSync(plainPassword, hashedPassword);
 	}
 
-	private createJwtPayload(user: UserWithoutPassword): JwtPayload {
+	private createJwtPayload(user: User): JwtPayload {
 		return {
 			username: user.username,
 			sub: user._id,

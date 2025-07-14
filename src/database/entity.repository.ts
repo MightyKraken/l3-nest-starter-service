@@ -42,10 +42,14 @@ export abstract class EntityRepository<T extends Document> {
 		filter: FilterQuery<T>,
 		update: UpdateQuery<unknown>
 	): Promise<T | null> {
-		return this.model.findOneAndUpdate(filter, update, {
+		const result = await this.model.findOneAndUpdate(filter, update, {
 			new: true,
 			fields: { __v: 0 }
 		});
+		if (!result) {
+			throw new NotFoundException('Document not found');
+		}
+		return result;
 	}
 
 	async deleteMany(filter: FilterQuery<T>): Promise<boolean> {

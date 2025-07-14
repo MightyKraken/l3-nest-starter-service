@@ -3,21 +3,29 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import { AppConfigService } from '../../app-config';
+import { JwtPayload } from '../interfaces/jwt-payload.interface';
+
+const cookieExtractor = (req: any): string | null => {
+	if (req && req.cookies && req.cookies['access_token']) {
+		return req.cookies['access_token'];
+	}
+	return null;
+};
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
 	constructor(appConfigService: AppConfigService) {
 		super({
-			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+			jwtFromRequest: ExtractJwt.fromExtractors([
+				ExtractJwt.fromAuthHeaderAsBearerToken(),
+				cookieExtractor
+			]),
 			ignoreExpiration: false,
 			secretOrKey: appConfigService.JWT_SECRET_TOKEN
 		});
 	}
 
-	async validate(...args: Array<any>): Promise<any> {
-		// Implement your validation logic here
-		// For example, you might want to check the JWT payload and return the user object
-		// if the token is valid.
-		return true; // Placeholder, replace with actual validation logic
+	async validate(payload: any): Promise<any> {
+		return <JwtPayload>payload;
 	}
 }

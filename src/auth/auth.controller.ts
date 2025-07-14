@@ -2,10 +2,11 @@ import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Response } from 'express';
 
-import { UserWithoutPassword } from '../user';
+import { UserDto } from '../user/dtos/user.dto';
+import { IsPublic } from '../utils';
 import { AuthService } from './auth.service';
 import { RefreshTokenDto } from './dtos/refresh-token.dto';
-import { SignupDto } from './dtos/singup.dto';
+import { SignupDto } from './dtos/signup.dto';
 import { TokenResponseDto } from './dtos/token-response.dto';
 import { AuthUser } from './guards/authUser.decorator';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
@@ -14,6 +15,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 export class AuthController {
 	constructor(private authService: AuthService) {}
 
+	@IsPublic()
 	@UseGuards(AuthGuard('local'))
 	@Post('login')
 	async loginPassport(
@@ -25,10 +27,9 @@ export class AuthController {
 		return tokens;
 	}
 
+	@IsPublic()
 	@Post('signUp')
-	async signUp(
-		@Body() signupDto: SignupDto
-	): Promise<UserWithoutPassword | never> {
+	async signUp(@Body() signupDto: SignupDto): Promise<UserDto> {
 		return this.authService.signUp(signupDto);
 	}
 
@@ -49,11 +50,13 @@ export class AuthController {
 		throw new Error('Method not implemented.');
 	}
 
+	@IsPublic()
 	@Post('forgot-password')
 	forgotPassword(): void {
 		throw new Error('Method not implemented.');
 	}
 
+	@IsPublic()
 	@Post('refresh-token')
 	async refreshToken(
 		@Body() refreshTokenDto: RefreshTokenDto,

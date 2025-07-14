@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
+import { UserDto } from './dtos/user.dto';
 import { User } from './schemas/user.schema';
 import { UserRepository } from './user.repository';
 
@@ -9,18 +11,21 @@ import { UserRepository } from './user.repository';
 export class UserService {
 	constructor(private readonly userRepository: UserRepository) {}
 
-	async createUser(createUserDto: CreateUserDto): Promise<User> {
-		return (await this.userRepository.create(createUserDto)).toJSON();
+	async createUser(createUserDto: CreateUserDto): Promise<UserDto> {
+		const result = await this.userRepository.create(createUserDto);
+		return plainToInstance(UserDto, result, { excludeExtraneousValues: true });
 	}
 
 	async updateUser(
 		updateUserDto: Partial<UpdateUserDto>,
 		id: string
-	): Promise<User> {
-		return await this.userRepository.findOneAndUpdate(
+	): Promise<UserDto> {
+		const result = await this.userRepository.findOneAndUpdate(
 			{ _id: id },
 			updateUserDto
 		);
+
+		return plainToInstance(UserDto, result, { excludeExtraneousValues: true });
 	}
 
 	async findByUserName(username: string): Promise<User | null> {
