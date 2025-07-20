@@ -9,6 +9,7 @@ import { AppConfigService } from './app-config.service';
 	imports: [
 		ConfigModule.forRoot({
 			isGlobal: true,
+			envFilePath: '.env',
 			validationSchema: Joi.object({
 				PORT: Joi.number().default(3000),
 				DB_CONNECTION_URL: Joi.string().required(),

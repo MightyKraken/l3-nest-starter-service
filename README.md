@@ -73,3 +73,11 @@
 - nest g mo <name> -> Generates a module
 - nest g co <name> -> generates a controller
 - nest g s <name> -> generates a service
+
+# Deployment steps
+
+- Made a docker compose that will fetch mongo and nestjs image
+- Locally pushed nestjs docker image to github registry -> automate this
+- Locally copied docker compose and env file to azure vm -> automate this
+- on azure vm run docker compose via command line -> automate this
+- Installed nginx for reverse proxy etc -> automate this
