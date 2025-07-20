@@ -15,7 +15,7 @@ import { AppConfigService } from './app-config.service';
 				DB_CONNECTION_URL: Joi.string().required(),
 				DATABASE_NAME: Joi.string().default('Nestjs'),
 				JWT_SECRET_TOKEN: Joi.string().required().min(100),
-				JWT_REFRESH_SECRET_TOKEN: Joi.string().required().min(100),
+				JWT_REFRESH_SECRET_TOKEN: Joi.string().required().min(20),
 				HASH_SALT_ROUNDS: Joi.number().default(10),
 				JWT_TOKEN_EXPIRATION: Joi.string().default('3600s'),
 				JWT_REFRESH_SECRET_TOKEN_EXPIRATION: Joi.string().default('7d')
