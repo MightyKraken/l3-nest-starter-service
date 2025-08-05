@@ -1,7 +1,7 @@
 // user-is-owner.guard.spec.ts
 import { ExecutionContext, ForbiddenException } from '@nestjs/common';
 
-import { IsOwnerGuard } from './isOwner.guard';
+import { IsOwnerGuard } from './is-owner.guard';
 
 describe('IsOwnerGuard', () => {
 	let guard: IsOwnerGuard;

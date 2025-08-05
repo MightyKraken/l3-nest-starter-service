@@ -1,7 +1,7 @@
 // is-public.decorator.spec.ts
 import { Reflector } from '@nestjs/core';
 
-import { IS_PUBLIC_KEY, IsPublic } from './isPublic.decorator';
+import { IS_PUBLIC_KEY, IsPublic } from './is-public.decorator';
 
 describe('IsPublic Decorator', () => {
 	it('should set metadata isPublic = true on the method', () => {

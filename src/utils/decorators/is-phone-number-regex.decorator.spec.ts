@@ -1,6 +1,6 @@
 import { validate } from 'class-validator';
 
-import { IsPhoneNumber } from './isPhoneNumberRegex.decorator';
+import { IsPhoneNumber } from './is-phone-number-regex.decorator';
 
 class TestPhoneNumberDto {
 	@IsPhoneNumber({ message: 'Invalid phone number' })

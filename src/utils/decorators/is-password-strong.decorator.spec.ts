@@ -1,6 +1,6 @@
 import { validate } from 'class-validator';
 
-import { IsPasswordStrong } from './isPasswordStrong.decorator';
+import { IsPasswordStrong } from './is-password-strong.decorator';
 
 class TestPasswordDto {
 	@IsPasswordStrong()

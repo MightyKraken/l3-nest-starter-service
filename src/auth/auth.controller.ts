@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
 import { RefreshTokenDto } from './dtos/refresh-token.dto';
 import { SignupDto } from './dtos/signup.dto';
 import { TokenResponseDto } from './dtos/token-response.dto';
-import { AuthUser } from './guards/authUser.decorator';
+import { AuthUser } from './guards/auth-user.decorator';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Controller('auth')

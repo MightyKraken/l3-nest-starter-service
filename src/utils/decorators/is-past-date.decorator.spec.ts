@@ -1,6 +1,6 @@
 import { validate } from 'class-validator';
 
-import { IsPastDate } from './isPastDate.decorator';
+import { IsPastDate } from './is-past-date.decorator';
 
 class TestPastDateDto {
 	@IsPastDate({ message: 'Date must be in the past' })
